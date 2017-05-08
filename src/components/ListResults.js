@@ -26,7 +26,6 @@ class ListResults extends Component{
 	}
 
 	componentWillMount() {
-		console.log('component will mount')
 		this.fetchData();
 	}
 
@@ -60,9 +59,11 @@ class ListResults extends Component{
 	    const viewportHeight = window.innerHeight;
 	    const fullHeight = document.body.clientHeight;
 
-	    if (!(scrolled + viewportHeight + 300 >= fullHeight)) {
+	    if (!(scrolled + viewportHeight + 555 >= fullHeight)) {
 	      return null;
 	    }
+
+	    console.log('do search')
 
 	    this.setState({ isLoading: true, page: this.state.page + 1 }, () => {
 	    	this.fetchData();
@@ -80,6 +81,7 @@ class ListResults extends Component{
 			return response.json();
 		})
 		.then((data) => {
+			console.log(data)
 			if(data.ErrorCode == 'InvalidPage' || data.result_count === 0){
 				this.setState({
 					isLoading: false,
@@ -107,7 +109,7 @@ class ListResults extends Component{
 	render(){
 		var loading = '';
 		if(this.state.isLoading){
-			loading = <p> Loading...</p>;
+			loading = <p><img src="loading.gif" /></p>;
 			if(this.state.page === 1) return loading;
 		}
 
@@ -118,10 +120,12 @@ class ListResults extends Component{
 
 		return(
 			<div className="row">
-				<h3 onClick={this.handleTest}>Resultados</h3>
+				<br />
 				<div className="col-md-10">
 					{ this.state.results.map((item, key) => 
-						<MediaImage key={key} displaySrc={item.display_sizes[0].uri}/>
+						<MediaImage key={key} 
+								    title={item.title} 
+								    displaySrc={item.display_sizes[0].uri}/>
 					)}
 					{loading} 
 					{noResults}

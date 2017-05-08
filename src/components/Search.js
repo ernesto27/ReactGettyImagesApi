@@ -5,7 +5,7 @@ class Search extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			q: '',
+			q: 'game of thrones',
 			querySelected: '',
 			order: 'best'
 		}
